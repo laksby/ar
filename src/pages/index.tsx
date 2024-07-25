@@ -6,79 +6,83 @@ export const IndexPage: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const onActivateClick = useCallback(async () => {
-    if (!canvasRef.current || !navigator.xr) {
-      return;
-    }
-    const gl = canvasRef.current.getContext('webgl2', { xrCompatible: true });
+    try {
+      if (!canvasRef.current || !navigator.xr) {
+        return;
+      }
+      const gl = canvasRef.current.getContext('webgl2', { xrCompatible: true });
 
-    if (!gl) {
-      return;
-    }
-
-    const scene = new THREE.Scene();
-
-    const materials = [
-      new THREE.MeshBasicMaterial({ color: 0xff0000 }),
-      new THREE.MeshBasicMaterial({ color: 0x0000ff }),
-      new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
-      new THREE.MeshBasicMaterial({ color: 0xff00ff }),
-      new THREE.MeshBasicMaterial({ color: 0x00ffff }),
-      new THREE.MeshBasicMaterial({ color: 0xffff00 }),
-    ];
-
-    // Create the cube and add it to the demo scene.
-    const cube = new THREE.Mesh(createBoxBufferGeometry(0.2, 0.2, 0.2), materials);
-    cube.position.set(1, 1, 1);
-    scene.add(cube);
-
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      preserveDrawingBuffer: true,
-      canvas: canvasRef.current,
-      context: gl,
-    });
-    renderer.autoClear = false;
-
-    const camera = new THREE.PerspectiveCamera();
-    camera.matrixAutoUpdate = false;
-
-    const session = await navigator.xr.requestSession('immersive-ar');
-    session.updateRenderState({
-      baseLayer: new XRWebGLLayer(session, gl),
-    });
-
-    const referenceSpace = await session.requestReferenceSpace('local');
-
-    const onXRFrame = (_time: DOMHighResTimeStamp, frame: XRFrame) => {
-      session.requestAnimationFrame(onXRFrame);
-
-      if (!session.renderState.baseLayer) {
+      if (!gl) {
         return;
       }
 
-      gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
+      const scene = new THREE.Scene();
 
-      const pose = frame.getViewerPose(referenceSpace);
+      const materials = [
+        new THREE.MeshBasicMaterial({ color: 0xff0000 }),
+        new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+        new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
+        new THREE.MeshBasicMaterial({ color: 0xff00ff }),
+        new THREE.MeshBasicMaterial({ color: 0x00ffff }),
+        new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+      ];
 
-      if (pose) {
-        const view = pose.views[0];
+      // Create the cube and add it to the demo scene.
+      const cube = new THREE.Mesh(createBoxBufferGeometry(0.2, 0.2, 0.2), materials);
+      cube.position.set(1, 1, 1);
+      scene.add(cube);
 
-        const viewport = session.renderState.baseLayer.getViewport(view);
+      const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        preserveDrawingBuffer: true,
+        canvas: canvasRef.current,
+        context: gl,
+      });
+      renderer.autoClear = false;
 
-        if (!viewport) {
+      const camera = new THREE.PerspectiveCamera();
+      camera.matrixAutoUpdate = false;
+
+      const session = await navigator.xr.requestSession('immersive-ar');
+      session.updateRenderState({
+        baseLayer: new XRWebGLLayer(session, gl),
+      });
+
+      const referenceSpace = await session.requestReferenceSpace('local');
+
+      const onXRFrame = (_time: DOMHighResTimeStamp, frame: XRFrame) => {
+        session.requestAnimationFrame(onXRFrame);
+
+        if (!session.renderState.baseLayer) {
           return;
         }
 
-        renderer.setSize(viewport.width, viewport.height);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
-        camera.matrix.fromArray(view.transform.matrix);
-        camera.projectionMatrix.fromArray(view.projectionMatrix);
-        camera.updateMatrixWorld(true);
+        const pose = frame.getViewerPose(referenceSpace);
 
-        renderer.render(scene, camera);
-      }
-    };
-    session.requestAnimationFrame(onXRFrame);
+        if (pose) {
+          const view = pose.views[0];
+
+          const viewport = session.renderState.baseLayer.getViewport(view);
+
+          if (!viewport) {
+            return;
+          }
+
+          renderer.setSize(viewport.width, viewport.height);
+
+          camera.matrix.fromArray(view.transform.matrix);
+          camera.projectionMatrix.fromArray(view.projectionMatrix);
+          camera.updateMatrixWorld(true);
+
+          renderer.render(scene, camera);
+        }
+      };
+      session.requestAnimationFrame(onXRFrame);
+    } catch (error) {
+      alert(error);
+    }
   }, []);
 
   return (
