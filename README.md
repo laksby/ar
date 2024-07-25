@@ -1,10 +1,10 @@
-# Sandbox
+# AR Demo
 
-![status](https://github.com/laksby/sandbox/actions/workflows/gatsby.yml/badge.svg?branch=main)
+![status](https://github.com/laksby/ar/actions/workflows/gatsby.yml/badge.svg?branch=main)
 
-This repository contains source code for sandbox template.
+This repository contains source code for AR demo.
 
-[Link to Preview](https://laksby.github.io/sandbox/)
+[Link to Preview](https://laksby.github.io/ar/)
 
 ## Setup
 
@@ -12,9 +12,9 @@ Clone repository
 
 ```bash
 # ssh
-git clone git@github.com:laksby/sandbox.git
+git clone git@github.com:laksby/ar.git
 # https
-git clone https://github.com/laksby/sandbox.git
+git clone https://github.com/laksby/ar.git
 ```
 
 Install dependencies

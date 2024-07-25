@@ -1,7 +1,7 @@
 {
-  "name": "sandbox",
+  "name": "ar",
   "version": "1.0.0",
-  "description": "Sandbox project template for various purposes",
+  "description": "AR Demo",
   "private": true,
   "scripts": {
     "develop": "gatsby develop",
