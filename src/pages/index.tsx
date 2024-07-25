@@ -87,7 +87,11 @@ export const IndexPage: FC = () => {
 
   return (
     <main className="tw-p-4 tw-min-h-screen tw-flex tw-flex-col tw-items-stretch">
-      <button onClick={onActivateClick}>Start</button>
+      <button
+        onClick={onActivateClick}
+        className="tw-border-2 tw-border-black tw-border-solid tw-p-4 tw-font-bold tw-uppercase tw-self-center hover:tw-bg-black hover:tw-text-white">
+        Start
+      </button>
       <canvas className="tw-flex-1" ref={canvasRef} />
     </main>
   );
