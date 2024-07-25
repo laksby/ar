@@ -98,3 +98,7 @@ export const IndexPage: FC = () => {
 };
 
 export default IndexPage;
+
+export function Head() {
+  return <script src="https://unpkg.com/webxr-polyfill@latest/build/webxr-polyfill.min.js" />;
+}
