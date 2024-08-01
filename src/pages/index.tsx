@@ -8,18 +8,18 @@ export const IndexPage: FC = () => {
     const scene = document.querySelector('a-scene').object3D;
     const camera = document.querySelector('[camera]').object3D;
 
-    // const materials = [
-    //   new THREE.MeshBasicMaterial({ color: 0xff0000 }),
-    //   new THREE.MeshBasicMaterial({ color: 0x0000ff }),
-    //   new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
-    //   new THREE.MeshBasicMaterial({ color: 0xff00ff }),
-    //   new THREE.MeshBasicMaterial({ color: 0x00ffff }),
-    //   new THREE.MeshBasicMaterial({ color: 0xffff00 }),
-    // ];
+    const materials = [
+      new THREE.MeshBasicMaterial({ color: 0xff0000 }),
+      new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+      new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
+      new THREE.MeshBasicMaterial({ color: 0xff00ff }),
+      new THREE.MeshBasicMaterial({ color: 0x00ffff }),
+      new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+    ];
 
-    // const cube = new THREE.Mesh(createBoxBufferGeometry(0.2, 0.2, 0.2), materials);
-    // cube.position.set(1, 1, 1);
-    // scene.add(cube);
+    const cube = new THREE.Mesh(createBoxBufferGeometry(0.2, 0.2, 0.2), materials);
+    cube.position.set(1, 1, 1);
+    scene.add(cube);
   }, []);
 
   return (
